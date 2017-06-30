@@ -8,11 +8,11 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum UserProfileType {
+public enum UserRole {
     USER("USER"),
     DBA("DBA"),
     ADMIN("ADMIN");
 
-    String userProfileType;
+    String userRole;
 
 }

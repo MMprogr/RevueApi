@@ -7,7 +7,7 @@ package pl.mmprogr.Models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.mmprogr.UserProfile.UserProfileType;
+import pl.mmprogr.UserProfile.UserRole;
 
 import javax.persistence.*;
 
@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="users_profiles")
+@Table(name="users_profile")
 public class UserProfile {
 
     @Id
@@ -23,5 +23,5 @@ public class UserProfile {
     private int id;
 
     @Column(name = "type", length = 15, unique = true, nullable = false)
-    private String type = UserProfileType.USER.getUserProfileType();
+    private String type = UserRole.USER.getUserRole();
 }

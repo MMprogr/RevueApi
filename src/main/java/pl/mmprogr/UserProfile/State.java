@@ -12,10 +12,8 @@ import lombok.ToString;
 @ToString
 public enum State {
 
-    ACTIVE("Active"),
-    INACTIVE("Inactive"),
-    DELETED("Deleted"),
-    LOCKED("Locked");
+    ACTIVE("active"),
+    INACTIVE("inactive");
 
     private String state;
 

@@ -1,9 +1,16 @@
 package pl.mmprogr.Models.User;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import pl.mmprogr.Models.Comment.Comment;
+import pl.mmprogr.Models.Review.Review;
 import pl.mmprogr.UserProfile.State;
+import pl.mmprogr.UserProfile.UserRole;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,10 +21,11 @@ import java.util.Set;
  * Created by ggere on 25.03.2017.
  */
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue
@@ -33,12 +41,19 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name="STATE", nullable=false)
-    private String state= State.ACTIVE.getState();
+    @Column(name = "state", nullable = false)
+    private String state = State.ACTIVE.getState();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "APP_USER_USER_PROFILE",
-            joinColumns = { @JoinColumn(name = "users_id") },
-            inverseJoinColumns = { @JoinColumn(name = "users_profiles_id") })
-    private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+    @Column(name = "role")
+    private UserRole role = UserRole.USER;
+
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Review.class)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "user")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Set<Review> reviews = new HashSet<Review>();
+
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Comment.class)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "user")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Set<Review> comments = new HashSet<Review>();
 }
